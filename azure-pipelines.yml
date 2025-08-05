@@ -1,0 +1,19 @@
+trigger:
+- main  # Make sure your branch is named 'main'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+
+- script: |
+    sudo apt-get update
+    sudo apt-get install -y openjdk-11-jdk unzip wget
+    wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz
+    tar -xvzf apache-jmeter-5.6.3.tgz
+    cd apache-jmeter-5.6.3/bin
+    ./jmeter -n -t $(Build.SourcesDirectory)/Kajal_8972108_Assignment2.jmx -l result.jtl
+  displayName: 'Run JMeter Test'
